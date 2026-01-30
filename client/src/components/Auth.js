@@ -13,10 +13,14 @@ const Auth = () => {
         try {
             const url = isLogin ? '/api/auth/login' : '/api/auth/register';
             const response = await axios.post(url, { email, password });
-            console.log(response.data);
-            // Handle successful authentication (e.g., redirect or update state)
+            if (response.data.success) {
+                // Handle successful authentication (e.g., redirect or update state)
+                console.log('Authentication successful:', response.data);
+            } else {
+                setError(response.data.message || 'Authentication failed');
+            }
         } catch (err) {
-            setError(err.response ? err.response.data.message : 'An error occurred');
+            setError(err.response?.data?.message || 'An error occurred');
         }
     };
 
